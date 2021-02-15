@@ -15,20 +15,32 @@ This code will be executed in real mode,it will load the kernel setup at memory 
 
 .text
 #specify the entry point of the program 
-.global __main
+.global main
 
- __main:
+ main:
+    ljmp    $BOOT_SEG,$start
+
+
+ start:
+    # good practice to setup segment registers and the stack 
+    cli
+    movw    %cs,%ax
+    movw    %ax,%ds
+    movw    %ax,%es
+    movw    %ax,%ss
+    mov     $STACK_OFFSET,%sp
+    sti
     push    %dx         # we have to save this register,it contain the load drive number 
     # print loading message
     mov     $start_msg,%bx
-    call    __print_string
+    call    print_string
 
     # set segment registers to 0x7c00
     xor     %ax,%ax
     mov     %cs,%ax
     mov     %ax,%ds
     
-    # load setup of the kernel in the memory using BIOS read sectors routine  
+    # load setup in the memory using BIOS read sectors routine  
     mov     $SETUP_SEG,%ax
     push    %ax
     pop     %es
@@ -40,7 +52,7 @@ This code will be executed in real mode,it will load the kernel setup at memory 
     mov     $SETUP_NBR_SECTORS,%di
     mov     $SETUP_START_SECTOR,%si
     pop     %dx
-    call    __read_sectors
+    call    read_sectors
 
     # jump to setup and start execute its code
     ljmp      $SETUP_SEG,$SETUP_OFFSET
@@ -49,14 +61,15 @@ _end_boot_sector:
     # we have not to return from setup but if it is the case we have to handle that
     jmp     _end_boot_sector
 
-.include  "disk_services.S"
+.include "bios/print_strings.S"
+.include  "bios/disk_services.S"
 
 
 # Message to print in OS
 start_msg : .asciz   "Loading OS kernel ....\n"
 
 
-.fill 510-(.- __main),1,0
+.fill 510-(.- main),1,0
 
 .word BOOT_SIG
 

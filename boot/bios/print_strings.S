@@ -1,32 +1,45 @@
-.global __print_string
-# print string in bx
-__print_string:
+/* 
+
+Copyright (C) 2021 Mossaab BOUDCHICHA
+
+Using BIOS routines as display services: display caracters and strings 
+
+*/
+
+# function parameters :
+# %bx : the address of the first caracter to print
+
+.code16
+
+.global print_string
+
+print_string:
     # its allways best practices to ensure that no register has to be changed in function calls
     pusha
 	# go to print the string 
     mov    $0xe,%ah
     mov     %bx,%si
 
-__print_char:
+_print_char:
     lodsb
     andb    %al,%al
-    jz      __end_print
+    jz      _end_print
     int     $0x10
-    jmp    __print_char
+    jmp    _print_char
 
-__end_print: 
+_end_print: 
     # restore all registers before return
     popa
     ret
 
-.global __print_string2
+.global print_string2
 # print string in bx but with hexadecimal numbers 
-__print_string2:
+print_string2:
     pusha
     mov %bl,%al
     mov $0x07,%bx
     mov $0x0e,%ah
     int $0x10
-__end_print2:
+_end_print2:
     popa
     ret

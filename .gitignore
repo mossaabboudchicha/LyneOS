@@ -1,0 +1,8 @@
+*.bin
+*.sys
+*.elf
+*.prep
+*.o
+*.tar
+
+
