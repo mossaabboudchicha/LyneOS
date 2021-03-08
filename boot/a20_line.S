@@ -149,8 +149,8 @@ _exit_a20:
 	popa
 	ret
 
-a20_enabled_msg:  .asciz    "A20 line is already enabled!"
-a20_fail_enable_msg:  .asciz    "Fail to enable A20 line!"
+a20_enabled_msg:  .asciz    " A20 line is already enabled!"
+a20_fail_enable_msg:  .asciz    " Fail to enable A20 line!"
 
 
 

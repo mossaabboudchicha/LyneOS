@@ -17,35 +17,47 @@ This function set up the environement for the executing of the final kernel imag
 
 .global start
 
-
 start:
     mov     %cs,%ax
     mov     %ax,%ds
     mov     %ax,%es
- # Set Video mode 80X25 text mode 
-    mov    $0x00,%ah
-    mov    $0x03,%al
-    int    $0x10
 
-    # reset %bx
-    xor    %bx,%bx
+    #check that the bootloader loaded this setup file correctly in memory
+    cmpw    $SETUP_SIG1,setup_check_sig1
+    jne     _bad_setup_load
+    cmpw    $SETUP_SIG2,setup_check_sig2
+    jne     _bad_setup_load
+    jmp     _good_setup_load
 
-    # we have to do carriage return before all
-    mov    $0x000D,%bx
-    call   print_string2
-
+_bad_setup_load:
+    # here we have to replace this code so that we can find the rest of setup
     # return to line 
-    mov    $0x000A,%bx
-    call   print_string2
+    call    return_to_line
+    mov     $bad_setup_load_msg,%bx 
+    call    print_string
+    jmp     _end_prog
+
+_good_setup_load:
+    # Reset the disk controller.
+    call    reset_disk_controller
+    
+    # Set Video mode 80X25 text mode 
+    call    set_80X25_video_mode
 
     # Print string in the screen 
     # we have to put the adresse of the screen to print in bx
+    call   return_to_line
     xor    %bx,%bx
     mov    $msg_to_print,%bx 
     call   print_string
 
     # now we have to check the A20 line
-    call check_a20
+    call   return_to_line
+    call   check_a20
+
+    # now we have to detect memory
+    call   return_to_line
+    call   detect_lowmem 
 
  _end_prog:   
     jmp  _end_prog
@@ -66,8 +78,9 @@ start:
 
 
 
-msg_to_print: .asciz    "Setup LyneOS! \n"
+msg_to_print: .asciz    " LyneOS kernel Initialization...\n"
 msg_clear: .asciz    " "
+bad_setup_load_msg: .asciz " Error loading setup file...!"
 
 
 

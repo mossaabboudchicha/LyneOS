@@ -14,7 +14,7 @@ Using BIOS routines as display services: display caracters and strings
 .global print_string
 
 print_string:
-    # its allways best practices to ensure that no register has to be changed in function calls
+    # its allways good practice to ensure that no register has to be changed in function calls
     pusha
 	# go to print the string 
     mov    $0xe,%ah
@@ -41,5 +41,30 @@ print_string2:
     mov $0x0e,%ah
     int $0x10
 _end_print2:
+    popa
+    ret
+
+# some useful print routines 
+
+# Return to line
+.global return_to_line
+
+return_to_line:
+    pusha
+    mov    $0x000D,%bx
+    call   print_string2
+    mov    $0x000A,%bx
+    call   print_string2
+    popa
+    ret
+
+# Set Video mode 80X25 text mode
+.global set_80X25_video_mode
+
+set_80X25_video_mode:
+    pusha
+    mov    $0x00,%ah
+    mov    $0x03,%al
+    int    $0x10
     popa
     ret

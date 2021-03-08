@@ -32,7 +32,7 @@ This code will be executed in real mode,it will load the kernel setup at memory 
     sti
     push    %dx         # we have to save this register,it contain the load drive number 
     # print loading message
-    mov     $start_msg,%bx
+    lea     start_msg,%bx
     call    print_string
 
     # set segment registers to 0x7c00
@@ -66,10 +66,10 @@ _end_boot_sector:
 
 
 # Message to print in OS
-start_msg : .asciz   "Loading OS kernel ....\n"
+start_msg : .string   " Loading LyneOS kernel....\n"
 
-
-.fill 510-(.- main),1,0
+#.fill 510-(.- main),1,0
+.space 0x1FE - (. - main)
 
 .word BOOT_SIG
 

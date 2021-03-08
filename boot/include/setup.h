@@ -5,6 +5,10 @@
 
 #define  SIG_MEM_ADD	BOOT_OFFSET+(BOOT_SECTOR_SIZE-BOOT_SIG_SIZE)+0x10 
 
+/* Setup signatures to check that setup loaded correctly at memory*/
+#define  SETUP_SIG1    0x5A5A
+#define  SETUP_SIG2    0xAA55
+
 /* 8042 PS/2 Controller I/O port */ 
 #define  PS2_STATUS_PORT  0x64 
 #define  PS2_CMD_PORT  0x64 

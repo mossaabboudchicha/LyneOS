@@ -35,8 +35,9 @@ Using BIOS routines as disk services: display caracters and strings
 	jc      _error_reading_carry
 	cmp	    %al,0x01   # compare the number of sectors read with number of sectors we have to read
 	jb      _error_reading_comp
-	mov    $success_reading_msg,%bx
-	call   print_string
+	call    return_to_line
+	mov     $success_reading_msg,%bx
+	call    print_string
 	
 _end_read_sectors:
 	popa
@@ -51,13 +52,25 @@ _error_reading_comp:
 	jmp    _error_reading
 
 _error_reading:
+    call   return_to_line
 	call   print_string
 	jmp	   _end_read_sectors
 
+# Reset the disk controller.
+
+.global reset_disk_controller
+
+reset_disk_controller:
+    pusha
+    movw    $0x0000, %ax
+    movb    $0x80, %dl
+    int     $0x13
+    popa
+    ret
 
 
-error_reading_msg_carry:	.asciz	"Error reading sector from disk carry \n"
+error_reading_msg_carry:	.asciz	" Error reading sector from disk (carry error) \n"
 
-error_reading_msg_comp:	.asciz	"Error reading sector from disk comparaison \n"
+error_reading_msg_comp:	.asciz	" Error reading sector from disk comparaison \n"
 
-success_reading_msg:	.asciz	"successfully reading sector from disk \n"
+success_reading_msg:	.asciz	" successfully reading sector from disk \n"
