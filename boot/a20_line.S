@@ -139,6 +139,10 @@ _write_data:
 _fail_to_enable_a20:
 	mov	   $a20_fail_enable_msg,%bx
 	call   print_string
+_die_a20:
+	hlt
+	jmp    _die_a20
+
 
 _exit_a20:
     # retore registers before return

@@ -16,8 +16,10 @@ Using BIOS routines as display services: display caracters and strings
 print_string:
     # its allways good practice to ensure that no register has to be changed in function calls
     pusha
+    # return to line 
+    call    _return_to_line
 	# go to print the string 
-    mov    $0xe,%ah
+    mov     $0xe,%ah
     mov     %bx,%si
 
 _print_char:
@@ -47,9 +49,7 @@ _end_print2:
 # some useful print routines 
 
 # Return to line
-.global return_to_line
-
-return_to_line:
+_return_to_line:
     pusha
     mov    $0x000D,%bx
     call   print_string2

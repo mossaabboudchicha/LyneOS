@@ -35,7 +35,6 @@ Using BIOS routines as disk services: display caracters and strings
 	jc      _error_reading_carry
 	cmp	    %al,0x01   # compare the number of sectors read with number of sectors we have to read
 	jb      _error_reading_comp
-	call    return_to_line
 	mov     $success_reading_msg,%bx
 	call    print_string
 	
@@ -52,7 +51,6 @@ _error_reading_comp:
 	jmp    _error_reading
 
 _error_reading:
-    call   return_to_line
 	call   print_string
 	jmp	   _end_read_sectors
 

@@ -31,8 +31,6 @@ start:
 
 _bad_setup_load:
     # here we have to replace this code so that we can find the rest of setup
-    # return to line 
-    call    return_to_line
     mov     $bad_setup_load_msg,%bx 
     call    print_string
     jmp     _end_prog
@@ -46,17 +44,14 @@ _good_setup_load:
 
     # Print string in the screen 
     # we have to put the adresse of the screen to print in bx
-    call   return_to_line
     xor    %bx,%bx
     mov    $msg_to_print,%bx 
     call   print_string
 
     # now we have to check the A20 line
-    call   return_to_line
     call   check_a20
 
     # now we have to detect memory
-    call   return_to_line
     call   detect_lowmem 
 
  _end_prog:   
