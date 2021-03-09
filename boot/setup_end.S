@@ -13,6 +13,7 @@ correctly in the memory.
 #include "include/boot.h"
 #include "include/setup.h"
 
+_start_end_setup:
 .global setup_check_sig1
 .global setup_check_sig2
 

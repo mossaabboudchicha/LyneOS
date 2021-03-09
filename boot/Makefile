@@ -24,10 +24,6 @@ BOOTLOADER_SRC = bootloader.S
 
 # Setup vars
 
-SETUP_MEM_ADDR = 0x9000
-
-SETUP_ENTRY_POINT = start
-
 SETUP_SRC = setup.S
 
 SETUP_END_SRC = setup_end.S 
@@ -79,7 +75,8 @@ e820_mm.o:$(E820_MM_SRC)
 	$(CC) $(CC_AS_FLAGES) -o $@ $^
 
 setup.bin:setup.o prints.o disk_services.o a20_line.o e820_mm.o setup_end.o
-	$(LINKER) -o $@ --oformat binary  -e $(SETUP_ENTRY_POINT) -Ttext $(SETUP_MEM_ADDR) $^
+	#$(LINKER) -o $@ --oformat binary  -e $(SETUP_ENTRY_POINT) -Ttext $(SETUP_MEM_ADDR) $^
+	$(LINKER) -T setup.ld -o $@  $^
 
 clean:
 	rm -rf *.o *.bin *.img *.elf *.sys *.asm *.prep

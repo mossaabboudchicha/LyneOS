@@ -48,6 +48,7 @@ This code will be executed in real mode,it will load the kernel setup at memory 
     xor     %ax,%ax
 
     # load setup to memory and jump to it
+    # we have to get the nbr of bytes in the setup,here we have to basing on linker symbols
     mov     $SETUP_OFFSET,%bx  
     mov     $SETUP_NBR_SECTORS,%di
     mov     $SETUP_START_SECTOR,%si

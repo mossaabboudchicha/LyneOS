@@ -22,7 +22,10 @@ start:
     mov     %ax,%ds
     mov     %ax,%es
 
+    #initialize counter of check of the setup load
+    xor     %cx,%cx
     #check that the bootloader loaded this setup file correctly in memory
+_check_good_load:
     cmpw    $SETUP_SIG1,setup_check_sig1
     jne     _bad_setup_load
     cmpw    $SETUP_SIG2,setup_check_sig2
@@ -30,7 +33,27 @@ start:
     jmp     _good_setup_load
 
 _bad_setup_load:
-    # here we have to replace this code so that we can find the rest of setup
+    cmp     $0x0,%cx
+    ja      _final_bad_setup_load  
+    inc     %cx
+    # setup file have > 1 sector loaded by the bootloader,we have to load the remaining sectors
+    # before continue
+    # get the remaining sectors to load,here we have to use symbols from setup linker script ,
+    # because at this stage we can't know the size of setup file,only linker script know
+    xor     %ax,%ax
+    mov     $_esetup,%ax
+    sub     $_ssetup,%ax
+    # we have to exclude the already loaded bytes (1 sector) by the bootloader
+    sub     $LOADED_SETUP_BYTES,%ax
+    mov     $SETUP_OFFSET+SECTOR_SIZE,%bx
+    mov     $SETUP_START_SECTOR+0x1,%si
+    shr     $SECTOR_SHIFT,%ax
+    add     $0x1,%ax
+    mov     %ax,%di
+    call    read_sectors
+    jmp     _check_good_load
+
+_final_bad_setup_load:
     mov     $bad_setup_load_msg,%bx 
     call    print_string
     jmp     _end_prog
@@ -76,7 +99,6 @@ _good_setup_load:
 msg_to_print: .asciz    " LyneOS kernel Initialization...\n"
 msg_clear: .asciz    " "
 bad_setup_load_msg: .asciz " Error loading setup file...!"
-
 
 
 
