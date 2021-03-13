@@ -72,10 +72,12 @@ _good_setup_load:
     call   print_string
 
     # now we have to check the A20 line
+    #ifndef IGNORE_A20CHECK
     call   check_a20
+    #endif
 
     # now we have to detect memory
-    call   detect_lowmem 
+    call   detect_lowmem
 
  _end_prog:   
     jmp  _end_prog

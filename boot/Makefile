@@ -62,8 +62,11 @@ bootloader.bin:bootloader.o
 
 # Setup
 
+# If the user want to ignore the A20 gate check ,it have to add this flag to make 
+# EXTENDED_FLAGS="-DIGNORE_A20CHECK"
+
 setup.o:$(SETUP_SRC)
-	$(CC) $(CC_AS_FLAGES) -o $@ $^
+	$(CC) $(CC_AS_FLAGES) -o $@ $^ $(EXTENDED_FLAGS)
 
 setup_end.o:$(SETUP_END_SRC)
 	$(CC) $(CC_AS_FLAGES) -o $@ $^
@@ -96,7 +99,7 @@ bootloader.asm:bootloader.o
 	objdump	-D $^ > $@
 
 setup.prep:$(SETUP_SRC)
-	$(CC) $(CC_PREP_FLAGES) $^ > $@
+	$(CC) $(CC_PREP_FLAGES) $^ > $@ $(EXTENDED_FLAGS)
 
 setup.elf:setup.o
 	readelf	-a $^ > $@

@@ -1,4 +1,4 @@
-# Juste for rappel : $^ is the dependencies
+# Just a reminder : $^ is the dependencies
 #				     $@ is the target 
 
 GAS = as
@@ -15,6 +15,10 @@ CUR_DIR := $(shell pwd)
 
 BOOT_DIR := $(CUR_DIR)'/boot'
 
+BOOTSECTOR_NBR_SEC = 2
+
+SETUP_NBR_SEC = 2
+
 
 
 # Build rules
@@ -30,8 +34,8 @@ bootblock:
 kernel.img:bootblock 
 	#cat $^ > $@
 	dd if=/dev/zero of=kernel.img  count=4
-	dd if=$(BOOT_DIR)/bootloader.bin of=kernel.img count=2
-	dd if=$(BOOT_DIR)/setup.bin of=kernel.img seek=2 count=2
+	dd if=$(BOOT_DIR)/bootloader.bin of=kernel.img count=$(BOOTSECTOR_NBR_SEC)
+	dd if=$(BOOT_DIR)/setup.bin of=kernel.img seek=$(BOOTSECTOR_NBR_SEC) count=$(SETUP_NBR_SEC)
 
 	
 
