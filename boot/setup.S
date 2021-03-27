@@ -78,6 +78,9 @@ _good_setup_load:
 
     # now we have to detect memory
     call   detect_lowmem
+    call   detect_heighmem
+    # now we have to switch to protected mode
+    
 
  _end_prog:   
     jmp  _end_prog
