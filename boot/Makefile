@@ -1,4 +1,4 @@
-# Juste for rappel : $^ is the dependencies
+# Juste for recall : $^ is the dependencies
 #				     $@ is the target 
 
 GAS = as
