@@ -4,5 +4,6 @@
 *.prep
 *.o
 *.tar
+*.img
 
 
