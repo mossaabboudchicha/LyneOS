@@ -5,10 +5,10 @@ the detected memory entries and their types to be used later by the kernel
 
 */
 
-#ifndef E820_H
-#define E820_H
+#ifndef ASM_E820_H
+#define ASM_E820_H
 
-#include "../types.h"
+#include <types.h>
 
 /* Memory regions types as defined by BIOS */
 #define RAM 1
@@ -42,4 +42,4 @@ struct e820map{
 
 #endif /* __ASSEMBLER__*/
 
-#endif /* E820_H*/
+#endif /* ASM_E820_H */
