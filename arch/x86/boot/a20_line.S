@@ -12,8 +12,8 @@ in some BIOS(s) this can be enabled ,so we have to check before
 # the reason of this check is that in the case of A20 line disabled ,the memory wraps after 1 Mib so that
 # 0xFFFF:0x7E0E = 0x107DFE wich is higher then 1 Mib by 0x7DFE and 0x7DFE = 0x7c00+0x1FE
 
-#include "include/boot.h"
-#include "include/setup.h"
+#include <asm/boot.h>
+#include <asm/setup.h>
 
 .code16
 

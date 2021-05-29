@@ -10,8 +10,8 @@ correctly in the memory.
 .code16
 .text
 
-#include "include/boot.h"
-#include "include/setup.h"
+#include <asm/boot.h>
+#include <asm/setup.h>
 
 _start_end_setup:
 .global setup_check_sig1

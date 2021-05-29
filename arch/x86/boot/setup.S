@@ -2,14 +2,14 @@
 
 Copyright (C) 2021 Mossaab BOUDCHICHA
 
-THIS is the LyneOS setup function,it be loaded by the bootloader at memory adress 0x0000:0x9000 (segment:offset).
+THIS is the LyneOS setup file,it be loaded by the bootloader at memory adress 0x0000:0x9000 (segment:offset).
 
 This function set up the environement for the executing of the final kernel image.
 
 */
 
-#include "include/boot.h"
-#include "include/setup.h"
+#include <asm/boot.h>
+#include <asm/setup.h>
 
 
 .code16
@@ -99,7 +99,8 @@ _good_setup_load:
     # jump to setup and start execute its code
     #ljmp      $BOOT_SEG,$BOOT_OFFSET
 
-
+.include "disk_services.S"
+.include "print_strings.S"
 
 msg_to_print: .asciz    " LyneOS kernel Initialization...\n"
 msg_clear: .asciz    " "

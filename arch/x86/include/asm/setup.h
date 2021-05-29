@@ -1,5 +1,5 @@
-#ifndef SETUP_H
-#define	SETUP_H
+#ifndef ASM_SETUP_H
+#define	ASM_SETUP_H
 
 /* used to check the memory wrap 0x10 is the difference between 0xFFFF:0x0000 and 1Mib 0xFFFF:0x0010*/
 
@@ -24,4 +24,4 @@
 #define FAST_A20_GATE_PORT  0x92
 
 
-#endif
+#endif /* ASM_SETUP_H */

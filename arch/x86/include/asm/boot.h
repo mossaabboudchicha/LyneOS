@@ -1,5 +1,5 @@
-#ifndef BOOT_H
-#define BOOT_H
+#ifndef ASM_BOOT_H
+#define ASM_BOOT_H
 
 /* kernel setup file memory and disk locations*/
 #define SECTOR_SHIFT  0x9
@@ -13,9 +13,8 @@
 
 #define SETUP_SEG  0x0000
 #define SETUP_OFFSET 0x9000
-/*#define SETUP_SEG  0xFFFF
-#define SETUP_OFFSET 0xFF10*/
-#define SETUP_START_SECTOR	0X03
+
+#define SETUP_START_SECTOR	0X02
 #define SETUP_NBR_SECTORS	0X01
 #define LOADED_SETUP_BYTES  SETUP_NBR_SECTORS*SECTOR_SIZE
 
@@ -24,4 +23,5 @@
 
 #define STACK_OFFSET BOOT_OFFSET
 
-#endif
+
+#endif /* ASM_BOOT_H */

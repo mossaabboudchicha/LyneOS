@@ -8,16 +8,16 @@ This code will be executed in real mode,it will load the kernel setup at memory 
 
 */
 
-#include "include/boot.h"
+#include <asm/boot.h>
 
 # code16 to indicate that this program will run in real mode 
 .code16
 
 .text
-#specify the entry point of the program 
-.global main
+#specify the entry point of the program (default entry point name as expected by GCC linker)
+.global _start
 
- main:
+ _start:
     ljmp    $BOOT_SEG,$start
 
 
@@ -62,15 +62,14 @@ _end_boot_sector:
     # we have not to return from setup but if it is the case we have to handle that
     jmp     _end_boot_sector
 
-.include "bios/print_strings.S"
-.include  "bios/disk_services.S"
-
+.include "print_strings.S"
+.include  "disk_services.S"
 
 # Message to print in OS
 start_msg : .string   " Loading LyneOS kernel....\n"
 
 #.fill 510-(.- main),1,0
-.space 0x1FE - (. - main)
+.space 0x1FE - (. - _start)
 
 .word BOOT_SIG
 

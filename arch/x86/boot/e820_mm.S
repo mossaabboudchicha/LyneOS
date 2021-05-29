@@ -6,7 +6,7 @@ Detect memory using BIOS routines and put it in apropriate data structure
 
 */
 
-#include "../kernel/include/x86/e820.h"
+#include <asm/e820.h>
 
 .code16 
 
@@ -48,7 +48,7 @@ _continue_detect_high:
 	mov    $E820Magic,%edx
 	mov    $E820EntrySize,%ecx
 	mov    $0xE820,%eax
-	andw   $0xFFFF,%eax 
+	andw   $0xFFFF,%ax 
 	int    $0x15   
 	cmp    $E820Magic,%eax
 	jne    _fail_to_detect_high_mem
