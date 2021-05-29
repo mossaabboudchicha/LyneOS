@@ -48,9 +48,13 @@ ifneq ($(VERBOSE_MODE),1)
 else
 	Q = @
 endif
+
 # Export VARIABLES so they can be used by sub-process
 export ARCH CROSS_COMPILE AS LD CC CPP OBJDUMP NOSTDINC_FLAGS HEADERS_INCLUDE_DIR
 export CFLAGS CPPFLAGS srctree builddir Q
+
+
+.PHONY:install install_qemu clean
 
 # The default target when no target is specified
 
@@ -59,12 +63,13 @@ install:bootblock
 	mv $(BOOT)/*.bin  $(builddir)
 	mv $(BOOT)/*.o  $(builddir)
 	
+install_qemu:install
+	$(QEMU) $(builddir)/bootblock.bin
 
 clean:
 	rm -rf $(builddir)
 
-install_qemu:install
-	$(QEMU) $(builddir)/bootblock.bin
+
 
 
 # we have to get the architecture dependent Makefile

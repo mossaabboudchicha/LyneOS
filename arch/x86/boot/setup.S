@@ -103,8 +103,7 @@ _good_setup_load:
 .include "print_strings.S"
 
 msg_to_print: .asciz    " LyneOS kernel Initialization...\n"
-msg_clear: .asciz    " "
-bad_setup_load_msg: .asciz " Error loading setup file...!"
+bad_setup_load_msg: .asciz " Error loading setup file!"
 
 
 

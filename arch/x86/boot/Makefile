@@ -19,9 +19,10 @@ SETUP_NBR_SEC = 2
 
 LD_BINARYFLAGS = --oformat binary
 BOOTBLOCK_NBR_SEC := 3
+
 # Build rules
 
-
+.PHONY:all 
 
 all:bootblock.bin
 	

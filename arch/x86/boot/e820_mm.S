@@ -35,9 +35,6 @@ _fail_to_detect_low_mem:
 detect_heighmem:
 
 	pusha
-	# start detecting memory process message
-	mov    $start_detect_high_msg,%bx 
-    call   print_string
 	mov    %ds,%ax
 	mov    %ax,%es
 	mov    $E820Map,%di
@@ -54,7 +51,7 @@ _continue_detect_high:
 	jne    _fail_to_detect_high_mem
 	jc	   _fail_to_detect_high_mem
 	cmp	   $0x0000,%ebx
-	je     _end_detect_high_mem
+	je     success_detect_high_mem
 
 	# check if we have reached the max number of entries 
 	mov   (E820Nr),%al
@@ -66,11 +63,6 @@ _continue_detect_high:
 	add    $E820EntrySize,%ax
 	mov    %ax,%di
 	jmp    _continue_detect_high
-
-_end_detect_high_mem:
-	# start detecting memory process message
-	mov    $end_detect_high_msg,%bx 
-    call   print_string
 
 success_detect_high_mem:	
 	mov    $success_detect_high_msg,%bx 
@@ -87,12 +79,8 @@ _fail_to_detect_high_mem:
 
 success_detect_low_msg :   .asciz  " Detecting low memory successfully proceed" 
 success_detect_high_msg :   .asciz  " Detecting high memory successfully proceed" 
-start_detect_high_msg :   .asciz  " Detecting high memory..." 
-end_detect_high_msg :   .asciz  " End detecting high memory" 
 fail_detect_low_msg :   .asciz  " Failed to detect low memory" 
 fail_detect_high_msg :   .asciz  " Failed to detect high memory" 
-nbr_20:	.asciz  "20"
-nbr_24:	.asciz  "24"
 
 
 
