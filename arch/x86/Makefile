@@ -7,8 +7,9 @@
 
 BOOT = arch/$(ARCH)/boot
 
+.PHONY:bootblock 
+	
 # BUILD the bootblock
 bootblock:
 	$(Q)$(MAKE) -C $(BOOT)
 
-.PHONY:bootblock 

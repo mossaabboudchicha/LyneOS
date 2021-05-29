@@ -67,8 +67,8 @@ reset_disk_controller:
     ret
 
 
-error_reading_msg_carry:	.asciz	" Error reading sector from disk (carry error) \n"
+error_reading_msg_carry:	.asciz	" Error reading sector from disk (sectors corrupted or not found) \n"
 
-error_reading_msg_comp:	.asciz	" Error reading sector from disk comparaison \n"
+error_reading_msg_comp:	.asciz	" Error reading sector from disk (issue with the number of sectors to be read) \n"
 
-success_reading_msg:	.asciz	" successfully reading sector from disk \n"
+success_reading_msg:	.asciz	" Successfully reading sector from disk \n"
